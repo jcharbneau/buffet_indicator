@@ -26,7 +26,7 @@
 ## Getting Started
 
 This tooling includes a Docker Compose file, as well as several Dockerfile definition files.  If using these containers to run this project, you should not need to install anything.
-Where needed, I will note any credentials and/or signup's necessary to achieved the project results.
+Where needed, I will note any credentials and/or signup's necessary to achieve the project results.
 
 ### Prerequisites
 When running via Docker, there should be no installations necessary.
