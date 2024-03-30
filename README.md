@@ -1,4 +1,5 @@
 # Buffet Indicator project
+This is an example end-to-end project to develop a process and the necessary tools to support retrieving, processing, publishing and presentation of the data to understand the economic outlook based on Buffets Indicator rule.
 
 ### Frontend Built With
 * [![React][React.js]][React-url]
@@ -19,39 +20,11 @@
 * [![PyCharm][PyCharm-shield]][PyCharm-url]
 * [![WebStorm][WebStorm-shield]][WebStorm-url]
 
-
-
-
 <!-- GETTING STARTED -->
 ## Getting Started
 
 This tooling includes a Docker Compose file, as well as several Dockerfile definition files.  If using these containers to run this project, you should not need to install anything.
 Where needed, I will note any credentials and/or signup's necessary to achieve the project results.
-
-### Prerequisites
-When running via Docker, there should be no installations necessary.
-
-
-If running from a shell, the following steps may prove useful
-```shell
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt 
-```
-
-
-
-### Usage
-
-* docker
-  ```sh
-  docker <TODO>add notes to run without compose</TODO>
-  ```
-* python (cli)
-  ```sh
-  uvicorn main:app --host 0.0.0.0 --reload --port 8000
-  ```
-
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
