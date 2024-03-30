@@ -34,7 +34,7 @@ The architectural design can be found below
 
 
 # Usage
-To run the complete stack, run the following command
+To run the complete stack, execute the following command from a terminal in the top-level project directory.
 ```shell
 docker compose up
 ```
