@@ -1,0 +1,124 @@
+version: '3.8'
+
+# define our services
+#
+# custom services
+#   frontend: reactjs, vite (npm)
+#   backend: fastapi
+#
+# data services:
+#   postgres
+#   couchbase?
+#
+#   kestra - pipeline management
+#
+services:
+  bifrontend:
+    container_name: bifrontend
+    env_file:
+      - ./frontend/.env
+    build:
+      context: ./frontend/
+      dockerfile: ./Dockerfile
+    volumes:
+      - type: bind
+        source: ./frontend
+        target: /app
+      - /app/node_modules
+    working_dir: /app
+    ports:
+      - 5174:5174
+
+  bibackend:
+    container_name: bibackend
+    env_file:
+      - api/.env
+    build:
+      context: api/
+      dockerfile: ./Dockerfile.api
+    volumes:
+      - ./api:/app
+    ports:
+      - 8000:8000
+    depends_on:
+       - bipostgres
+#       - couchbase
+#         condition: service_healthy
+  bipostgres:
+    container_name: bipostgres
+    image: postgres
+    env_file:
+      - api/.env.postgres
+    volumes:
+      - type: bind
+        source: ./dataset/init.sql
+        target: /docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+
+#    healthcheck:
+#      test: [ "CMD", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}" ]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+
+# - starts, but needs proper credentials for postgres - to revisit when
+#    ready for the pipeline development to proceed
+#
+#  bikestra:
+#    image: kestra/kestra:latest-full
+#    pull_policy: always
+#    # Note that this is meant for development only. Refer to the documentation for production deployments of Kestra which runs without a root user.
+#    user: "root"
+#    command: server standalone --worker-thread=128
+#    volumes:
+#      - kestra-data:/app/storage
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - /tmp/kestra-wd:/tmp/kestra-wd
+#    environment:
+#      KESTRA_CONFIGURATION: |
+#        datasources:
+#          postgres:
+#            url: jdbc:postgresql://bipostgres:5432/kestra
+#            driverClassName: org.postgresql.Driver
+#            username: kestra
+#            password: k3str4
+#        kestra:
+#          server:
+#            basic-auth:
+#              enabled: false
+#              username: "admin@kestra.io" # it must be a valid email address
+#              password: kestra
+#          repository:
+#            type: postgres
+#          storage:
+#            type: local
+#            local:
+#              base-path: "/app/storage"
+#          queue:
+#            type: postgres
+#          tasks:
+#            tmp-dir:
+#              path: /tmp/kestra-wd/tmp
+#          url: http://localhost:8080/
+#    ports:
+#      - "8080:8080"
+#      - "8081:8081"
+#    depends_on:
+#      bipostgres:
+#        condition: service_started
+#volumes:
+#  postgres_data:
+#  kestra-data:
+#    driver: local
+
+##networks:
+
+
+
+#  secrets:
+#   db-password:
+#     file: db/password.txt
