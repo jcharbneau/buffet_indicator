@@ -2,6 +2,7 @@
 
 ### Built With
 * [![Python][Python-shield]][Python-url]
+* [![FastAPI][FastAPI-shield]][FastAPI-url]
 * [![PyTest][PyTest-shield]][PyTest-url]
 * [![SQLAlchemy][SQLAlchemy-shield]][SQLAlchemy-url]
 * [![Docker][Docker-shield]][Docker-url]
@@ -16,15 +17,12 @@ Where needed, I will note any credentials and/or signup's necessary to achieve t
 ### Prerequisites
 When running via Docker, there should be no installations necessary.
 
-
-If running from a shell, the following steps may prove useful
+To run locally without Docker, the following steps may prove useful
 ```shell
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt 
 ```
-
-
 
 ### Usage
 
@@ -36,7 +34,6 @@ pip install -r requirements.txt
   ```sh
   uvicorn main:app --host 0.0.0.0 --reload --port 8000
   ```
-
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -75,3 +72,6 @@ pip install -r requirements.txt
 [PyCharm-url]: https://www.jetbrains.com/pycharm/
 [GitHub-shield]:https://img.shields.io/static/v1?style=for-the-badge&message=GitHub&color=181717&logo=GitHub&logoColor=FFFFFF&label=
 [GitHub-url]: https://github.com
+[FastAPI-shield]:https://img.shields.io/static/v1?style=for-the-badge&message=FastAPI&color=009688&logo=FastAPI&logoColor=FFFFFF&label=
+[FastAPI-url]: https://fastapi.tiangolo.com
+

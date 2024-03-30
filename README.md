@@ -7,9 +7,9 @@ This is an example end-to-end project to develop a process and the necessary too
 * [![ViteJS][Vitejs-shield]][Vitejs-url]
 * [![Docker][Docker-shield]][Docker-url]
 
-
 ### Backend API Built With
 * [![Python][Python-shield]][Python-url]
+* [![FastAPI][FastAPI-shield]][FastAPI-url]
 * [![PyTest][PyTest-shield]][PyTest-url]
 * [![SQLAlchemy][SQLAlchemy-shield]][SQLAlchemy-url]
 * [![Docker][Docker-shield]][Docker-url]
@@ -25,6 +25,23 @@ This is an example end-to-end project to develop a process and the necessary too
 
 This tooling includes a Docker Compose file, as well as several Dockerfile definition files.  If using these containers to run this project, you should not need to install anything.
 Where needed, I will note any credentials and/or signup's necessary to achieve the project results.
+
+
+The overarching process that this tool will follow can be seen in the flowchart below.
+
+
+The architectural design can be found below
+
+
+# Usage
+To run the complete stack, run the following command
+```shell
+docker compose up
+```
+
+## Troubleshooting
+Notes regarding troubleshooting will be logged here
+
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -63,3 +80,6 @@ Where needed, I will note any credentials and/or signup's necessary to achieve t
 [PyCharm-url]: https://www.jetbrains.com/pycharm/
 [GitHub-shield]:https://img.shields.io/static/v1?style=for-the-badge&message=GitHub&color=181717&logo=GitHub&logoColor=FFFFFF&label=
 [GitHub-url]: https://github.com
+[FastAPI-shield]:https://img.shields.io/static/v1?style=for-the-badge&message=FastAPI&color=009688&logo=FastAPI&logoColor=FFFFFF&label=
+[FastAPI-url]: https://fastapi.tiangolo.com
+
