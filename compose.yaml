@@ -60,7 +60,10 @@ services:
     volumes:
       - type: bind
         source: ./postgres/init.sql
-        target: /docker-entrypoint-initdb.d/init.sql
+        target: /docker-entrypoint-initdb.d/10-init.sql
+      - type: bind
+        source: ./postgres/setup-permissions.sql
+        target: /docker-entrypoint-initdb.d/20-setup-permissions.sql
       - postgres_data:/var/lib/postgresql/data/
     ports:
       - 5432:5432
