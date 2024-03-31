@@ -52,12 +52,15 @@ services:
 #         condition: service_healthy
   bipostgres:
     container_name: bipostgres
-    image: postgres
+    image: bipostgres
+    build:
+      context: ./postgres/
+      dockerfile: ./Dockerfile
     env_file:
       - api/.env.postgres
     volumes:
       - type: bind
-        source: ./dataset/init.sql
+        source: ./postgres/init.sql
         target: /docker-entrypoint-initdb.d/init.sql
       - postgres_data:/var/lib/postgresql/data/
     ports:
