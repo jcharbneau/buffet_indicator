@@ -3,8 +3,8 @@ version: '3.8'
 # define our volumes
 volumes:
   postgres_data:
-#  kestra-data:
-#    driver: local
+  kestra-data:
+    driver: local
 
 # define our services
 #
@@ -52,7 +52,6 @@ services:
 #         condition: service_healthy
   bipostgres:
     container_name: bipostgres
-    image: bipostgres
     build:
       context: ./postgres/
       dockerfile: ./Dockerfile
