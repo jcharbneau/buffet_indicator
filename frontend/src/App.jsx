@@ -1,29 +1,33 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import {BrowserRouter, useParams} from 'react-router-dom'
+import Navbar from "./components/Nav.jsx";
+import About from "./components/About.jsx";
+import Charts from "./components/Charts.jsx";
+import Hero from "./components/Hero.jsx";
+import Documentation from "./components/Documentation.jsx";
+
 import './App.css'
+import './index.css'
+
 // import
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <h1>The Buffet Indicator</h1>
+    <><BrowserRouter>
+        <div className="bg-white relative z-0 bg-primary">
+
+            <header className="bg-white fixed top-0 w-full z-10">
+                <Navbar/>
+            </header>
+            <Hero/>
+                <Charts />
+
+            <Documentation />
+            <About />
       </div>
-      <div className="card">
-        In this project, I am going to be demonstrating a process to calculate the "Buffet Indicator".<br/>
-          As part of this exercise; I will address these action items related to the data.
-          <ul className="flex max-">
-              <li>Retrieving</li>
-              <li>Processing</li>
-              <li>Publishing</li>
-              <li>Presenting</li>
-          </ul>
-      </div>
-      <p className="read-the-docs">
-        placeholder for components (Single Page App)
-      </p>
+
+    </BrowserRouter>
     </>
   )
 }
