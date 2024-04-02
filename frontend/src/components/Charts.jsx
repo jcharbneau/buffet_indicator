@@ -3,13 +3,13 @@ import { Chart } from "react-google-charts";
 
 import {SectionWrapper} from "../hoc/index.js";
 const stats = [
-    { name: 'Revenue', value: '$405,091.00', change: '+4.75%', changeType: 'positive' },
-    { name: 'Overdue invoices', value: '$12,787.00', change: '+54.02%', changeType: 'negative' },
+    { name: 'Willshire 5000', value: '$52,906T', change: '+0.002%', changeType: 'positive' },
+    { name: 'GDP', value: '$27,956B', change: '+0.013%', changeType: 'positive' },
     { name: 'Outstanding invoices', value: '$245,988.00', change: '-1.39%', changeType: 'positive' },
     { name: 'Expenses', value: '$30,156.00', change: '+10.18%', changeType: 'negative' },
 ]
 export const data = [
-    ["Year", "Sales", "Expenses"],
+    ["Date", "Sales", "Expenses"],
     ["2004", 1000, 400],
     ["2005", 1170, 460],
     ["2006", 660, 1120],
@@ -21,7 +21,12 @@ export const options = {
     curveType: "function",
     legend: { position: "bottom" },
 };
-
+const tabs = [
+    { name: 'My Account', href: '#', current: false },
+    { name: 'Company', href: '#', current: false },
+    { name: 'Team Members', href: '#', current: true },
+    { name: 'Billing', href: '#', current: false },
+]
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
@@ -34,7 +39,7 @@ const Charts = () => {
                     {stats.map((stat) => (
                         <div
                             key={stat.name}
-                            className="flex flex-wrap items-baseline justify-between gap-x-2 gap-y-2 bg-white px-4 py-5 sm:px-6 xl:px-8"
+                            className="flex flex-wrap items-baseline justify-between gap-x-0 gap-y-2 bg-white px-4 py-5 sm:px-6 xl:px-8"
                         >
                             <dt className="text-sm font-medium leading-6 text-gray-500">{stat.name}</dt>
                             <dd
@@ -52,6 +57,7 @@ const Charts = () => {
                     ))}
                 </dl>
                 <div className="text-left flex  flex-shrink px-6 py-6">
+
                     <Chart
                         chartType="LineChart"
                         width="90%"
