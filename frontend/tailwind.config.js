@@ -10,9 +10,14 @@ module.exports = {
         sans: ['Inter', ...defaultTheme.fontFamily.sans],
       },
       animation: {
+        'infinite-scroll': 'infinite-scroll 30s linear infinite',
         "text-reveal": "text-reveal 1.5s cubic-bezier(0.77, 0, 0.175, 1) 0.5s",
       },
       keyframes: {
+        'infinite-scroll': {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(-100%)' },
+        },
         "text-reveal": {
           "0%": {
             transform: "translate(0, 100%)",
@@ -51,5 +56,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/aspect-ratio')
+  ],
 };
