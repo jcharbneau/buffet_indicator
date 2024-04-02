@@ -10,37 +10,32 @@ import '../styles'
 
 export default function Navbar() {
     return (
-        <Disclosure as="nav" className="bg-white fixed shadow h-[20px] z-50 ">
+        <Disclosure as="nav" className="w-full bg-white fixed shadow h-[20px] z-50 ">
             {({ open }) => (
                 <>
-                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="mx-auto w-full">
                         <div className="flex h-16 justify-between">
                             <div className="flex">
-                                <div className="flex flex-shrink-0 items-center">
-                                    {/*<img*/}
-                                    {/*    className="h-8 w-auto"*/}
-                                    {/*    src="{logo}"*/}
-                                    {/*    alt="Your Company"*/}
-                                    {/*/>*/}
-                                    <img src={logo} alt="Buffet Indicator" className="w-9 h9 object-contain" />
-                                </div>
+                                {/*<div className="flex flex-shrink-0 items-center">*/}
+                                {/*    <img src={logo} alt="Buffet Indicator" className="w-9 h9 object-contain" />*/}
+                                {/*</div>*/}
                                 <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
                                     {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
                                     <a
                                         href="#"
-                                        className="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900"
+                                        className="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900 hover:border-gray-300 hover:text-gray-700 active:text-blue-700"
                                     >
-                                        Dashboard
+                                        Main
                                     </a>
                                     <a
                                         href="#charts"
-                                        className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                                        className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 active:text-blue-700"
                                     >
                                         Charts
                                     </a>
                                     <a
                                         href="#docs"
-                                        className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                                        className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 active:text-blue-700"
                                     >
                                         Documentation
                                     </a>
