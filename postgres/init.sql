@@ -8,7 +8,6 @@ CREATE SCHEMA webapp_schema AUTHORIZATION webapp_user;
 CREATE SCHEMA pipeline_schema AUTHORIZATION pipeline_user;
 
 
-
 /* create a pipeline table to track the overall stock market value */
 create table if not exists pipeline_schema.stock_market_value (
         id serial PRIMARY KEY,
@@ -18,7 +17,7 @@ create table if not exists pipeline_schema.stock_market_value (
         created_on TIMESTAMP NOT NULL
 );
 
-/* create a pipeline schema to track the gdp value over time */
+/* create a pipeline table to track the gdp value over time */
 create table if not exists pipeline_schema.gdp_value (
     id serial PRIMARY KEY,
     source VARCHAR (50),
