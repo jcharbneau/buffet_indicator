@@ -11,7 +11,7 @@ const About = () => {
     return (
         <>
             <div className="w-full max-w-7xl h-full pt-20">
-                <div className={`${styles.padding} bg-gray-500 border-0  min-h-screen`}>
+                <div className={`${styles.padding} bg-white border-0  min-h-screen`}>
                     <motion.div variants={textVariant()} className="bg-transparent">
                         <p className={`${styles.sectionSubText} bg-transparent text-white`}>We are ...</p>
                         {/*<h2 className={` ${styles.sectionHeadText} bg-transparent`}>SecFul</h2>*/}
@@ -32,13 +32,7 @@ const About = () => {
 
 
                 </div>
-                <motion.span
-                    variants={fadeIn("","",0.1,1)}
-                    className="mt-1 text-black text-[17px] w-full  pl-5 pt-2 mr-5 "
-                >
-                    Motion goes here
 
-                </motion.span>
             </div>
         </>
     )
