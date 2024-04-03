@@ -3,6 +3,7 @@ FROM postgres:latest
 # ADD postgresql.conf /var/lib/postgresql/data/
 
 # Set environment variables if needed (for example, to set the default superuser password)
+ENV POSTGRES_USER=postgres
 ENV POSTGRES_PASSWORD=mysecretpassword
 
 # not strictly necessary as we'll be binding over it

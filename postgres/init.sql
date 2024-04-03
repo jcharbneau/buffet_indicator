@@ -11,19 +11,15 @@ CREATE SCHEMA pipeline_schema AUTHORIZATION pipeline_user;
 /* create a pipeline table to track the overall stock market value */
 create table if not exists pipeline_schema.stock_market_value (
         id serial PRIMARY KEY,
-        source VARCHAR (50),
-        market_value NUMERIC(15,2),
-        last_updated TIMESTAMP,
-        created_on TIMESTAMP NOT NULL
+        date TIMESTAMP,
+        value NUMERIC(15,2)
 );
 
 /* create a pipeline table to track the gdp value over time */
 create table if not exists pipeline_schema.gdp_value (
     id serial PRIMARY KEY,
-    source VARCHAR (50),
-    gdp_value NUMERIC(15,2),
-    last_updated TIMESTAMP,
-    created_on TIMESTAMP NOT NULL
+    date TIMESTAMP,
+    value NUMERIC(15,3)
 );
 
 /* load our most recent static copy of the data */
