@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Chart } from "react-google-charts";
+
+import { Line, Bar, Scatter } from 'react-chartjs-2';
+import 'chartjs-plugin-zoom'; // Only necessary if zoom functionality is desired in the Line chart
+import { Chart, registerables, ScatterController, LineElement, PointElement, LinearScale, Title, Tooltip, Legend } from 'chart.js';
+
 import { SectionWrapper } from "../hoc/index.js";
 import { fetchMarketInsights, fetchMarketTrends } from "../utils/api.js";
+import './MarketMetrics.css'; // Make sure the path matches where your CSS file is located
+
+Chart.register(...registerables, ScatterController, LineElement, PointElement, LinearScale, Title, Tooltip, Legend);
 
 const options = {
     title: "Economic Performance",
@@ -12,40 +19,88 @@ const options = {
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
-// Sample transformation of fetched data to the format expected by Google Charts
-const transformDataForChart = (apiData) => {
-    // Assuming apiData is an array of objects like:
-    // [{ date: '2021', sales: 1000, expenses: 400 }, { date: '2022', sales: 1170, expenses: 460 }]
-    // And you want to transform it to the format Google Charts expects
 
-    // First, prepare the header row
-    const headers = ['Date', 'GDP', 'Wilshire 5k'];
-
-    // Then, map each object in the array to an array of values
-    const rows = apiData.map(item => [
-        item.date,
-        // item.latest_buffett_indicator ? parseFloat(item.latest_buffett_indicator) : 0,
-        item.latest_gdp_value ? parseFloat(item.latest_gdp_value) : 0,
-        item.latest_wilshire_value ? parseFloat(item.latest_wilshire_value) : 0
-    ]);
-
-    // Combine headers with rows
-    return [headers, ...rows];
-};
 
 const Charts = () => {
-    const [marketInsights, setMarketInsights] = useState([]);
-    const [marketTrends, setMarketTrends] = useState([]);
-    const [stats, setStats] = useState([]);
+    const [isOvervalued, setIsOvervalued] = useState(false);
+    const [buffettIndicatorStatus, setBuffettIndicatorStatus] = useState('');
+    const [buffettIndicatorValue, setBuffettIndicatorValue] = useState('');
+    const [wilshireValue, setWilshireValue] = useState('');
+    const [wilshireGrowthRate, setWilshireGrowthRate] = useState('');
+
+    const [formattedWilshireGrowthRate, setFormattedWilshireGrowthRate] = useState('');
+    const [gdpValue, setGdpValue] = useState('');
+    const [gdpGrowthRate, setGdpGrowthRate] = useState('');
+    const [latestDate, setLatestDate] = useState('');
+    const [formattedGdpGrowthRate, setFormattedGdpGrowthRate] = useState('');
+
+    const [chartData, setChartData] = useState({
+        lineChartData: { labels: [], datasets: [] },
+        barChartData: { datasets: [] },
+    });
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const insightsData = await fetchMarketInsights();
-                const transformedData = transformDataForChart(insightsData);
-                setMarketInsights(transformedData);
+                const marketInsights = await fetchMarketInsights();
+                console.log(marketInsights);
+
+                if (marketInsights && marketInsights.length > 0) {
+                    // Transform data for DualAxisLineChart
+                    const lineChartData = transformDataForLineChart(marketInsights);
+                    // Transform data for BarChartComparison
+                    const barChartData = prepareDataForBarChart(marketInsights);
+
+                    setChartData({ lineChartData, barChartData });
+
+                    const latestInsight = marketInsights[marketInsights.length - 3];
+                    if (latestInsight.buffett_indicator) {
+                        const formattedWilshireValue = new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            minimumFractionDigits: 0, // Adjust if you want decimals
+                            maximumFractionDigits: 0, // Adjust if you want decimals
+                        }).format(latestInsight.wilshire_value) + ' T';
+
+                        setFormattedWilshireGrowthRate(formattedWilshireValue)
+                        setWilshireValue(latestInsight.wilshire_value);
+                        setWilshireGrowthRate(`${(latestInsight.wilshire_growth_rate).toFixed(2)}%`);
+
+                        const formattedGdpValue = new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            maximumFractionDigits: 0,
+                            minimumFractionDigits: 0
+                        }).format( latestInsight.gdp_value) + ' B';
+                        setFormattedGdpGrowthRate(`${(latestInsight.gdp_growth_rate).toFixed(2)}%`);
+                        setGdpValue(formattedGdpValue);
+                        setGdpGrowthRate(latestInsight.gdp_growth_rate);
+
+                        const last_date = new Date(latestInsight.date);
+                        const formattedDate = new Intl.DateTimeFormat('en-US', {
+                            weekday: 'short',
+                            month: 'short', // "MMM" format
+                            day: '2-digit', // "dd" format
+                            year: 'numeric', // "yyyy" format
+                        }).format(last_date);
+                        setLatestDate(formattedDate);
+
+                        const indicatorValue = latestInsight.buffett_indicator;
+                        setBuffettIndicatorValue(`${indicatorValue.toFixed(2)}%`); // Formats the value as a percentage
+
+                        const overvalued = latestInsight.buffett_indicator > 100;
+                        setIsOvervalued(overvalued);
+                        const message = overvalued
+                            ? ['Currently Overvalued ', 'Be cautious buying stocks']
+                            : ['Currently Undervalued ', 'Good time to buy stocks'];
+                        setBuffettIndicatorStatus(message);
+                    } else {
+                        setBuffettIndicatorValue('N/A');
+                        setBuffettIndicatorStatus(['Data unavailable']);
+                    }
+                }
             } catch (error) {
-                console.error('Failed to fetch or transform data:', error);
+                console.error('Error fetching market insights:', error);
             }
         };
 
@@ -53,42 +108,158 @@ const Charts = () => {
     }, []);
 
 
+    const transformDataForLineChart = (marketInsights) => {
+        const recentData = marketInsights.slice(-52, -2);
+        return {
+            labels: recentData.map(item => new Date(item.date).toISOString().substring(0, 10)),
+            datasets: [
+                {
+                    label: 'Wilshire 5000',
+                    data: recentData.map(item => item.wilshire_value || 0),
+                    borderColor: 'blue',
+                    yAxisID: 'y',
+                },
+                {
+                    label: 'GDP',
+                    data: recentData.map(item => item.gdp_value || 0),
+                    borderColor: 'red',
+                    yAxisID: 'y1',
+                },
+            ],
+        };
+    };
+
+    const prepareDataForBarChart = (marketInsights) => {
+        // Filter entries with non-null growth rates
+        const filteredData = marketInsights.slice(-52, -2).filter(item => item.gdp_growth_rate !== null && item.wilshire_growth_rate !== null);
+
+        return {
+            labels: filteredData.map(item => new Date(item.date).getFullYear()), // Extract the year from the date
+            datasets: [
+                {
+                    label: 'GDP Growth Rate',
+                    data: filteredData.map(item => item.gdp_growth_rate),
+                    backgroundColor: 'rgba(53, 162, 235, 0.5)',
+                },
+                {
+                    label: 'Wilshire 5000 Growth Rate',
+                    data: filteredData.map(item => item.wilshire_growth_rate),
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                },
+            ],
+        };
+    };
+
+
+
+    // Options for DualAxisLineChart
+    const lineChartOptions = {
+        scales: {
+            y: {
+                type: 'linear',
+                display: true,
+                position: 'left',
+            },
+            y1: {
+                type: 'linear',
+                display: true,
+                position: 'right',
+                grid: {
+                    drawOnChartArea: false,
+                },
+            },
+        },
+        plugins: {
+        },
+        maintainAspectRatio: true,
+        responsive: true,
+        aspectRatio: 2
+    };
+
+    // Options for BarChartComparison
+    const barChartOptions = {
+        responsive: true,
+        interactions: {
+            intersect: true,
+            mode: 'index',
+        },
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            zoom: {
+                pan: {
+                    enabled: true,
+                    mode: 'x',
+                },
+                zoom: {
+                    wheel: {
+                        enabled: true,
+                    },
+                    pinch: {
+                        enabled: true,
+                    },
+                    mode: 'x',
+                },
+            },
+
+        },
+        scales: {
+            x: {
+                stacked: true,
+            },
+            y: {
+                stacked: true,
+            },
+        },
+    };
+
     return (
         <>
             <div className="w-full max-w-7xl h-full pt-20">
-                <h2 className="text-black text-xl text-left pl-2">Current Economic Values</h2>
+                <h2 className="text-black text-xl text-left pl-2">Current Economic Insights</h2>
                 <dl className="mx-auto text-left grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4">
-                    {stats.map((stat) => (
-                        <div
-                            key={stat.name}
-                            className="flex flex-wrap items-baseline justify-between gap-x-0 gap-y-2 bg-white px-4 py-5 sm:px-6 xl:px-8"
-                        >
-                            <dt className="text-sm font-medium leading-6 text-gray-500">{stat.name}</dt>
-                            <dd
-                                className={classNames(
-                                    stat.changeType === 'negative' ? 'text-rose-600' : 'text-gray-700',
-                                    'text-xs font-medium'
-                                )}
-                            >
-                                {stat.change}
-                            </dd>
-                            <dd className="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">
-                                {stat.value}
-                            </dd>
+                    <div className="market-metrics">
+                        <div className={`metric buffett-indicator ${isOvervalued ? 'overvalued' : 'undervalued'}`}>
+                            <h2>Buffett Indicator</h2>
+                            <div className="indicator-value">{buffettIndicatorValue}</div>
+                            <p>{buffettIndicatorStatus[0]}<br/>{buffettIndicatorStatus[1]}</p>
                         </div>
-                    ))}
-                </dl>
-                {marketInsights.length > 0 && (
-                    <div className="text-left flex flex-shrink px-6 py-6">
-                        <Chart
-                            chartType="LineChart"
-                            width="90%"
-                            height="400px"
-                            data={marketInsights}
-                            options={options}
-                        />
+
                     </div>
-                )}
+                    <div className="market-metrics">
+                        <div className={`metric w5k-indicator ${wilshireValue >= 0 ? 'positive-growth' : 'negative-growth'}`}>
+                            <h2>Wilshire 5000 Price Index</h2>
+                            <div className="w5k-value">{formattedWilshireGrowthRate}</div>
+                            <p>{wilshireGrowthRate}</p>
+                        </div>
+                    </div>
+                    <div className="market-metrics">
+                        <div className={`metric gdp-indicator ${gdpGrowthRate >= 0 ? 'positive-growth' : 'negative-growth'}`}>
+                            <h2>Gross Domestic Product</h2>
+                            <div className="gdp-value">{gdpValue}</div>
+                            <p>{formattedGdpGrowthRate}</p>
+                        </div>
+                    </div>
+                    <div className="market-metrics">
+                        <div className={`metric gdp-indicator positive-growth`}>
+                            <h2>Date of Data Dump</h2>
+                            <div className="gdp-value">{latestDate}</div>
+                            <p>&nbsp;</p>
+                        </div>
+                    </div>
+                </dl>
+
+                <div className="flex justify-center gap-4">
+                    <div className="pt-6 w-[600px] h-[400px] mb-5">
+                        <h3>Wilshire 5000 Price Index vs Gross Domestic Product</h3>
+                        <Line data={chartData.lineChartData} options={lineChartOptions}/>
+                    </div>
+                    <div className="pt-6 w-[600px] h-[400px] mb-5">
+                        <h3>GDP vs Wilshire 5000 - Growth Rate</h3>
+                        <Bar data={chartData.barChartData} options={barChartOptions}/>
+                    </div>
+                </div>
             </div>
         </>
     )
