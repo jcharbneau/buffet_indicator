@@ -6,9 +6,11 @@ from typing import Optional
 class MarketInsightSchema(BaseModel):
     id: int = Field(default=None)
     date: date
-    latest_buffett_indicator: Optional[float] = None
-    latest_wilshire_value: Optional[float] = None
-    latest_gdp_value: Optional[float] = None
+    buffett_indicator: Optional[float] = None
+    wilshire_value: Optional[float] = None
+    gdp_value: Optional[float] = None
+    gdp_growth_rate: Optional[float] = None  # New field for GDP growth rate
+    wilshire_growth_rate: Optional[float] = None  # New field for Wilshire growth rate
 
     class Config:
         from_attributes = True

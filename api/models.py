@@ -7,12 +7,14 @@ Base = declarative_base(metadata=metadata)
 
 class MarketInsights(Base):
     __tablename__ = "market_insights"
-    __table_args__ = {'schema': 'webapp_schema'}
+    __table_args__ = { 'schema': 'webapp_schema'}
     id = Column(Integer, primary_key=True, autoincrement=True)
     date = Column(Date, nullable=False, unique=True)
-    latest_buffett_indicator = Column(Numeric(10, 2))
-    latest_wilshire_value = Column(Numeric(20, 2))
-    latest_gdp_value = Column(Numeric(20, 2))
+    buffett_indicator = Column(Numeric(10, 2))
+    wilshire_value = Column(Numeric(20, 2))
+    gdp_value = Column(Numeric(20, 2))
+    gdp_growth_rate = Column(Numeric(10, 2))
+    wilshire_growth_rate = Column(Numeric(10, 2))
 
 class MarketTrends(Base):
     __tablename__ = "market_trends"
