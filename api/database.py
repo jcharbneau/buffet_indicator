@@ -3,7 +3,6 @@ from sqlalchemy import create_engine, MetaData
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
-from dotenv import load_dotenv
 
 # Load environment variables from .env file
 
@@ -11,7 +10,7 @@ from dotenv import load_dotenv
 DATABASE = 'postgres'
 USER = 'pipeline_user'
 PASSWORD = 'pipeline_password'
-HOST = 'localhost'
+HOST = 'bipostgres'
 PORT = '5432'
 DATABASE_URL = f"postgresql://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}"
 
