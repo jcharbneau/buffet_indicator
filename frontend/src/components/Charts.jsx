@@ -1,36 +1,58 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Chart } from "react-google-charts";
+import { SectionWrapper } from "../hoc/index.js";
+import { fetchMarketInsights, fetchMarketTrends } from "../utils/api.js";
 
-import {SectionWrapper} from "../hoc/index.js";
-const stats = [
-    { name: 'Willshire 5000', value: '$52,906T', change: '+0.002%', changeType: 'positive' },
-    { name: 'GDP', value: '$27,956B', change: '+0.013%', changeType: 'positive' },
-    { name: 'Outstanding invoices', value: '$245,988.00', change: '-1.39%', changeType: 'positive' },
-    { name: 'Expenses', value: '$30,156.00', change: '+10.18%', changeType: 'negative' },
-]
-export const data = [
-    ["Date", "Sales", "Expenses"],
-    ["2004", 1000, 400],
-    ["2005", 1170, 460],
-    ["2006", 660, 1120],
-    ["2007", 1030, 540],
-];
-
-export const options = {
+const options = {
     title: "Economic Performance",
     curveType: "function",
     legend: { position: "bottom" },
 };
-const tabs = [
-    { name: 'My Account', href: '#', current: false },
-    { name: 'Company', href: '#', current: false },
-    { name: 'Team Members', href: '#', current: true },
-    { name: 'Billing', href: '#', current: false },
-]
+
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
+// Sample transformation of fetched data to the format expected by Google Charts
+const transformDataForChart = (apiData) => {
+    // Assuming apiData is an array of objects like:
+    // [{ date: '2021', sales: 1000, expenses: 400 }, { date: '2022', sales: 1170, expenses: 460 }]
+    // And you want to transform it to the format Google Charts expects
+
+    // First, prepare the header row
+    const headers = ['Date', 'GDP', 'Wilshire 5k'];
+
+    // Then, map each object in the array to an array of values
+    const rows = apiData.map(item => [
+        item.date,
+        // item.latest_buffett_indicator ? parseFloat(item.latest_buffett_indicator) : 0,
+        item.latest_gdp_value ? parseFloat(item.latest_gdp_value) : 0,
+        item.latest_wilshire_value ? parseFloat(item.latest_wilshire_value) : 0
+    ]);
+
+    // Combine headers with rows
+    return [headers, ...rows];
+};
+
 const Charts = () => {
+    const [marketInsights, setMarketInsights] = useState([]);
+    const [marketTrends, setMarketTrends] = useState([]);
+    const [stats, setStats] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const insightsData = await fetchMarketInsights();
+                const transformedData = transformDataForChart(insightsData);
+                setMarketInsights(transformedData);
+            } catch (error) {
+                console.error('Failed to fetch or transform data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+
     return (
         <>
             <div className="w-full max-w-7xl h-full pt-20">
@@ -56,20 +78,20 @@ const Charts = () => {
                         </div>
                     ))}
                 </dl>
-                <div className="text-left flex  flex-shrink px-6 py-6">
-
-                    <Chart
-                        chartType="LineChart"
-                        width="90%"
-                        height="400px"
-                        data={data}
-                        options={options}
-                    />
-                </div>
+                {marketInsights.length > 0 && (
+                    <div className="text-left flex flex-shrink px-6 py-6">
+                        <Chart
+                            chartType="LineChart"
+                            width="90%"
+                            height="400px"
+                            data={marketInsights}
+                            options={options}
+                        />
+                    </div>
+                )}
             </div>
-
         </>
     )
 }
 
-export default SectionWrapper (Charts, "charts")
+export default SectionWrapper(Charts, "charts");
