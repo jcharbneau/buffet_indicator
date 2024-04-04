@@ -17,3 +17,5 @@ export const fetchMarketTrends = async () => {
     }
     return await response.json();
 }
+
+
