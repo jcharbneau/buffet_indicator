@@ -2,6 +2,7 @@ from sqlalchemy import create_engine, MetaData
 from sqlalchemy.dialects.postgresql import insert
 import pandas as pd
 import sys
+import pprint
 
 # Database connection details
 DATABASE = 'postgres'
@@ -68,27 +69,38 @@ try:
     wilshire_quarterly = wilshire_data.resample('Q').last()
     wilshire_quarterly['quarter'] = wilshire_quarterly.index.to_period('Q')
     gdp_quarterly_mapped = gdp_data.groupby(gdp_data.index.to_period('Q'))['gdp'].first()
-    wilshire_quarterly = wilshire_quarterly.join(gdp_quarterly_mapped, on='quarter')
-    wilshire_quarterly['buffett_indicator'] = (
-        wilshire_quarterly['will5000pr'] / wilshire_quarterly['gdp']
-    ) * 100
-    wilshire_quarterly['moving_average_6m'] = wilshire_quarterly['buffett_indicator'].rolling(window=2).mean()
-    wilshire_quarterly['moving_average_12m'] = wilshire_quarterly['buffett_indicator'].rolling(window=4).mean()
-    wilshire_quarterly['volatility_12m'] = wilshire_quarterly['buffett_indicator'].rolling(window=4).std()
+
+    # Combine the quarterly data into one DataFrame
+    combined_quarterly = wilshire_quarterly.join(gdp_quarterly_mapped, on='quarter')
+
+
+    # Now, calculate the growth rates on the combined DataFrame
+    combined_quarterly['wilshire_growth_rate'] = combined_quarterly['will5000pr'].pct_change() * 100
+    combined_quarterly['gdp_growth_rate'] = combined_quarterly['gdp'].pct_change() * 100
+#     print(combined_quarterly[['quarter', 'wilshire_growth_rate', 'gdp_growth_rate']].head())
+
+
+    # Implement the formula to get the "buffett_indicator"
+    combined_quarterly['buffett_indicator'] = (combined_quarterly['will5000pr'] / combined_quarterly['gdp']) * 100
+
+    # Additional calculations as before
+    combined_quarterly['moving_average_6m'] = combined_quarterly['buffett_indicator'].rolling(window=2).mean()
+    combined_quarterly['moving_average_12m'] = combined_quarterly['buffett_indicator'].rolling(window=4).mean()
+    combined_quarterly['volatility_12m'] = combined_quarterly['buffett_indicator'].rolling(window=4).std()
 
     # Preparing DataFrames for database insertion
-    wilshire_quarterly.reset_index(inplace=True)
-    wilshire_quarterly['date'] = wilshire_quarterly['date'].dt.to_period('Q').dt.to_timestamp('Q')
+    combined_quarterly.reset_index(inplace=True)
+    combined_quarterly['date'] = combined_quarterly['date'].dt.to_period('Q').dt.to_timestamp('Q')
 
-    market_insights_data = wilshire_quarterly[['date', 'buffett_indicator', 'will5000pr', 'gdp']].copy()
+    market_insights_data = combined_quarterly[['date', 'buffett_indicator', 'will5000pr', 'gdp', 'gdp_growth_rate', 'wilshire_growth_rate']].copy()
     market_insights_data.rename(columns={
-        'buffett_indicator': 'latest_buffett_indicator',
-        'will5000pr': 'latest_wilshire_value',
-        'gdp': 'latest_gdp_value'
+        'buffett_indicator': 'buffett_indicator',
+        'will5000pr': 'wilshire_value',
+        'gdp': 'gdp_value'
     }, inplace=True)
     market_insights_data['date'] = pd.to_datetime(market_insights_data['date'])
 
-    market_trends_data = wilshire_quarterly[[
+    market_trends_data = combined_quarterly[[
         'date', 'buffett_indicator', 'moving_average_6m', 'moving_average_12m', 'volatility_12m']].copy()
     market_trends_data['date'] = pd.to_datetime(market_trends_data['date'])
 
