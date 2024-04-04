@@ -1,0 +1,85 @@
+/* MarketMetrics.css */
+.market-metrics {
+    display: flex;
+    justify-content: center; /* Centering the content */
+    padding: 20px;
+}
+
+/* Adjustments within MarketMetrics.css */
+.text-content {
+    text-align: center;
+    display: flex; /* This makes it a flex container */
+    flex-direction: column; /* This stacks its children vertically */
+    align-items: center; /* This centers the items horizontally */
+}
+
+.metric {
+    padding: 20px;
+    margin: 10px 0; /* Adjust margins for spacing */
+    border-radius: 8px; /* Optional: Adds rounded corners for aesthetics */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* Ensures everything in .metric is also vertically stacked */
+}
+
+.overvalued, .undervalued {
+    width: 100%; /* Make sure the color covers the entire component */
+    padding: 20px;
+    color: #fff; /* Adjust based on what looks best over your color */
+}
+
+.overvalued {
+    background-color: rgba(248, 215, 218, 0.7); /* Slightly transparent pastel red background */
+}
+
+.undervalued {
+    background-color: rgba(212, 237, 218, 0.7); /* Slightly transparent pastel green background */
+}
+
+.metric h2 {
+    font-size: 1.2rem; /* Smaller, but still readable */
+    margin: 0 0 10px; /* Reducing space to fit better */
+}
+
+.metric p {
+    font-size: 1rem; /* Ensuring readability */
+}
+
+.metric h2, .metric p {
+    background-color: transparent; /* Explicitly make backgrounds transparent */
+    /* Or use inherit to match the parent .metric's background */
+    /* background-color: inherit; */
+}
+
+.indicator-value, .gdp-value, .w5k-value {
+    margin: 10px 0; /* Adjust spacing as needed */
+    padding: 5px 0; /* Optional: Adjusts padding */
+    border-top: 1px solid; /* Creates a line above the indicator value */
+    border-bottom: 1px solid; /* Creates a line below the indicator value */
+    color: #000000; /* Ensures text color matches the current styling */
+    font-weight: bold; /* Optional: Makes the value stand out */
+    background-color: transparent;
+}
+.positive-growth {
+    border: 1px solid #d4edda; /* Pastel green border for positive growth */
+    background-color: rgba(212, 237, 218, 0.7); /* Slightly transparent pastel green */
+}
+
+.negative-growth {
+    border: 1px solid #f8d7da; /* Pastel red border for negative growth */
+    background-color: rgba(248, 215, 218, 0.7); /* Slightly transparent pastel red */
+}
+/* Example for a hover tooltip, if you choose to use one */
+/*.gdp-value:hover::after {*/
+/*    content: 'Billion USD';*/
+/*    */
+/*    background: #f9f9f9; !* Light background for the tooltip *!*/
+/*    border: 1px solid #ccc; !* Light border for the tooltip *!*/
+/*    padding: 5px;*/
+/*    border-radius: 5px;*/
+/*    top: 100%;*/
+/*    left: 0;*/
+/*    white-space: nowrap; !* Keeps the tooltip on a single line *!*/
+/*    z-index: 1000; !* Ensures it's above other content *!*/
+/*}*/
