@@ -10,7 +10,7 @@ import math
 app = FastAPI()
 
 # CORS setup
-origins = ["http://localhost:8000", "http://localhost:5174", "https://yourfrontenddomain.com"]
+origins = ["http://localhost:8000", "http://localhost:5174"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -31,14 +31,17 @@ def get_db():
 def read_market_insights(db: Session = Depends(get_db)):
     try:
         insights = db.query(MarketInsights).all()
+
         cleaned_insights = []
         for insight in insights:
             cleaned_insight = {
                 "id": insight.id,
                 "date": insight.date,
-                "latest_buffett_indicator": None if math.isnan(insight.latest_buffett_indicator) else insight.latest_buffett_indicator,
-                "latest_wilshire_value": None if math.isnan(insight.latest_wilshire_value) else insight.latest_wilshire_value,
-                "latest_gdp_value": None if math.isnan(insight.latest_gdp_value) else insight.latest_gdp_value,
+                "buffett_indicator": None if math.isnan(insight.buffett_indicator) else insight.buffett_indicator,
+                "wilshire_value": None if math.isnan(insight.wilshire_value) else insight.wilshire_value,
+                "gdp_value": None if math.isnan(insight.gdp_value) else insight.gdp_value,
+                "gdp_growth_rate": None if math.isnan(insight.gdp_growth_rate) else insight.gdp_growth_rate,
+                "wilshire_growth_rate": None if math.isnan(insight.wilshire_growth_rate) else insight.wilshire_growth_rate,
             }
             cleaned_insights.append(MarketInsightSchema(**cleaned_insight))
         return cleaned_insights
