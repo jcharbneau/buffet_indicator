@@ -32,6 +32,16 @@ body > #root > div {
   padding-bottom: 100px;
   display: block;
 }
+.market-metrics {
+  display: flex;
+  justify-content: space-around;
+}
+
+.metric {
+  border: 1px solid #ccc;
+  padding: 20px;
+  text-align: center;
+}
 
 .black-gradient {
   background: #000000; /* fallback for old browsers */
