@@ -36,9 +36,11 @@ COPY pipeline_schema.gdp_value(date, gdp)
 CREATE TABLE IF NOT EXISTS webapp_schema.market_insights (
      id SERIAL PRIMARY KEY,
      date DATE NOT NULL,
-     latest_buffett_indicator NUMERIC(10,2),
-     latest_wilshire_value NUMERIC(20,2),
-     latest_gdp_value NUMERIC(20,2),
+     buffett_indicator NUMERIC(10,2),
+     wilshire_value NUMERIC(20,2),
+     gdp_value NUMERIC(20,2),
+     gdp_growth_rate NUMERIC(10, 2),
+     wilshire_growth_rate NUMERIC(10, 2),
      UNIQUE(date)
 );
 
