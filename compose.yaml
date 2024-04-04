@@ -46,6 +46,8 @@ services:
       - ./api:/app
     ports:
       - 8000:8000
+    expose:
+      - 8000
     depends_on:
        - bipostgres
 #       - couchbase
@@ -55,8 +57,6 @@ services:
     build:
       context: ./postgres/
       dockerfile: ./Dockerfile
-    env_file:
-      - api/.env.postgres
     volumes:
       - type: bind
         source: ./postgres/init.sql
