@@ -5,8 +5,8 @@
 @tailwind utilities;
 
 * {
-  background-color: #ffffff;
-  color: #000000;
+  /*background-color: #ffffff;*/
+  /*color: #000000;*/
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -341,3 +341,41 @@ body > #root > div {
 /*@keyframes blink-caret {*/
 /*  from, to { border-color: transparent }*/
 /*  50% { border-color: orange }*/
+
+
+/* Assuming .code-editor is a class applied to the top-level div of your component */
+.code-editor .shadow-lg.md:rounded-3xl {
+  background-color: #6d28d9 !important; /* Indigo, adjust as needed */
+}
+
+.code-editor .bg-gray-900 {
+  background-color: #1f2937 !important; /* Darker color for the terminal, adjust as needed */
+}
+
+/* Further specificity for nested elements */
+.code-editor .text-green-400 {
+  color: #10b981 !important; /* Ensuring the CLI text color is not overridden */
+}
+
+code, kbd, samp, pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+  font-size: 1em;
+}
+
+code, pre {
+  max-height: 400px !important;
+  overflow: hidden;
+}
+.axn {
+  --tw-text-opacity: 1;
+  color: #10b981 !important;
+}
+
+.awo {
+  line-height: 1.5rem;
+}
+.avw {
+  font-size: 0.8125rem;
+}

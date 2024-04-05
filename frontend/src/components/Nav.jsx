@@ -13,7 +13,7 @@ export default function Navbar() {
         <Disclosure as="nav" className="w-full bg-white fixed shadow h-[20px] z-50 ">
             {({ open }) => (
                 <>
-                    <div className="mx-auto w-full">
+                    <div className="mx-auto w-full bg-white">
                         <div className="flex h-16 justify-between">
                             <div className="flex">
                                 {/*<div className="flex flex-shrink-0 items-center">*/}
@@ -25,7 +25,7 @@ export default function Navbar() {
                                         href="#"
                                         className="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-gray-900 hover:border-gray-300 hover:text-gray-700 active:text-blue-700"
                                     >
-                                        Main
+                                        Home
                                     </a>
                                     <a
                                         href="#charts"

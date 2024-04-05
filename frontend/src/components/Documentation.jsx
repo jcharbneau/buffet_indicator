@@ -15,7 +15,7 @@ const Documentation = () => {
     }, [])
     return (
         <>
-            <div className="w-full max-w-7xl h-full py-20">
+            <div className="w-full max-w-7xl h-full py-20 bg-white text-black">
                 <h2 className="text-black text-xl text-left pl-2">Documentation</h2>
                 <p className="text-left pl-4">This is an example end-to-end project to develop a process and the necessary tools to support
                     retrieving, processing, publishing and presentation of the data to understand the economic outlook

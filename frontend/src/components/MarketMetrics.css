@@ -26,7 +26,7 @@
 .overvalued, .undervalued {
     width: 100%; /* Make sure the color covers the entire component */
     padding: 20px;
-    color: #fff; /* Adjust based on what looks best over your color */
+    /*color: #fff; !* Adjust based on what looks best over your color *!*/
 }
 
 .overvalued {
