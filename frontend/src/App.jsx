@@ -21,7 +21,8 @@ function App() {
                 <Navbar/>
             </header>
             <Hero/>
-                <Charts />
+
+            <Charts className="bg-white text-black" />
 
             <Documentation />
             <About />
