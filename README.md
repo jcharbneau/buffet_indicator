@@ -38,7 +38,11 @@ To run the complete stack, execute the following command from a terminal in the 
 ```shell
 docker compose up
 ```
-
+To populate the `webapp_schema.market_*` tables after the initial build, you will need to run the following.
+```shell
+cd pipeline
+python process_data.py
+```
 ## Troubleshooting
 Notes regarding troubleshooting will be logged here
 
