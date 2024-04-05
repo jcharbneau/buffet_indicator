@@ -238,8 +238,8 @@ const Charts = () => {
 
     return (
         <>
-            <div className="w-full max-w-7xl h-full pt-20">
-                <h2 className="text-black text-xl text-left pl-2">Current Economic Insights</h2>
+            <div className="w-full max-w-7xl h-full pt-20 bg-white" style={{ backgroundColor: '#ffffff', color:'#000000' }}>
+                <h2 className="text-black text-xl text-left pl-2" >Current Economic Insights</h2>
                 {/*<div className="market-metrics">*/}
                 {/*    <div className="flip-card" onClick={() => handleFlip('buffettIndicator')}>*/}
                 {/*        <div className={`flip-card-inner ${isFlipped.buffettIndicator ? 'is-flipped' : ''}`}>*/}
@@ -256,7 +256,7 @@ const Charts = () => {
                 {/*        </div>*/}
                 {/*    </div>*/}
                 {/*</div>*/}
-                <dl className="mx-auto text-left grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4">
+                <dl className="bg-white mx-auto text-left grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4"  >
                     <div className="market-metrics">
                         <div className={`metric flex w-full buffett-indicator ${isOvervalued ? 'overvalued' : 'undervalued'}`}>
                             <h2>Buffett Indicator</h2>
