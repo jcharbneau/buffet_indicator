@@ -38,6 +38,19 @@ const Charts = () => {
         lineChartData: { labels: [], datasets: [] },
         barChartData: { datasets: [] },
     });
+    const [isFlipped, setIsFlipped] = useState({
+        buffettIndicator: false,
+        wilshire5000: false,
+        gdpIndicator: false,
+        dataDumpDate: false
+    });
+
+    const handleFlip = (metric) => {
+        setIsFlipped(prevState => ({
+            ...prevState,
+            [metric]: !prevState[metric]
+        }));
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -55,14 +68,7 @@ const Charts = () => {
 
                     const latestInsight = marketInsights[marketInsights.length - 3];
                     if (latestInsight.buffett_indicator) {
-                        const formattedWilshireValue = new Intl.NumberFormat('en-US', {
-                            style: 'currency',
-                            currency: 'USD',
-                            minimumFractionDigits: 0, // Adjust if you want decimals
-                            maximumFractionDigits: 0, // Adjust if you want decimals
-                        }).format(latestInsight.wilshire_value) + ' T';
 
-                        setFormattedWilshireGrowthRate(formattedWilshireValue)
                         setWilshireValue(latestInsight.wilshire_value);
                         setWilshireGrowthRate(`${(latestInsight.wilshire_growth_rate).toFixed(2)}%`);
 
@@ -114,16 +120,14 @@ const Charts = () => {
             labels: recentData.map(item => new Date(item.date).toISOString().substring(0, 10)),
             datasets: [
                 {
-                    label: 'Wilshire 5000',
-                    data: recentData.map(item => item.wilshire_value || 0),
-                    borderColor: 'blue',
+                    label: 'Wilshire 5000 to GDP Ratio',
+                    data: recentData.map(item => {
+                        const wilshireValue = item.wilshire_value || 0;
+                        const gdpValue = item.gdp_value || 0;
+                        return gdpValue !== 0 ? (wilshireValue / gdpValue) * 100 : 0; // Ensure no division by zero
+                    }),
+                    borderColor: '#ff6b6b',
                     yAxisID: 'y',
-                },
-                {
-                    label: 'GDP',
-                    data: recentData.map(item => item.gdp_value || 0),
-                    borderColor: 'red',
-                    yAxisID: 'y1',
                 },
             ],
         };
@@ -162,7 +166,7 @@ const Charts = () => {
             },
             y1: {
                 type: 'linear',
-                display: true,
+                display: false,
                 position: 'right',
                 grid: {
                     drawOnChartArea: false,
@@ -170,6 +174,14 @@ const Charts = () => {
             },
         },
         plugins: {
+            legend: {
+                strokeStyle: '#ff6b6b',
+                labels: {
+                    color: '#000000', // Text color
+                    backgroundColor: '#ff6b6b', // Attempt to set background color (Note: Not a standard option)
+                    // Additional styling options here
+                },
+            },
         },
         maintainAspectRatio: true,
         responsive: true,
@@ -227,10 +239,26 @@ const Charts = () => {
                         </div>
 
                     </div>
+                    {/*<div className="market-metrics">*/}
+                    {/*    <div className="flip-card" onClick={() => handleFlip('buffettIndicator')}>*/}
+                    {/*        <div className={`flip-card-inner ${isFlipped.buffettIndicator ? 'is-flipped' : ''}`}>*/}
+                    {/*            <div className="flip-card-front">*/}
+                    {/*                <div className={`metric buffett-indicator ${isOvervalued ? 'overvalued' : 'undervalued'}`}>*/}
+                    {/*                    <h2>Buffett Indicator</h2>*/}
+                    {/*                    <div className="indicator-value">{buffettIndicatorValue}</div>*/}
+                    {/*                    <p>{buffettIndicatorStatus[0]}<br/>{buffettIndicatorStatus[1]}</p>*/}
+                    {/*                </div>*/}
+                    {/*            </div>*/}
+                    {/*            <div className="flip-card-back">*/}
+                    {/*                <p>Information about Buffett Indicator</p>*/}
+                    {/*            </div>*/}
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
                     <div className="market-metrics">
                         <div className={`metric w5k-indicator ${wilshireValue >= 0 ? 'positive-growth' : 'negative-growth'}`}>
                             <h2>Wilshire 5000 Price Index</h2>
-                            <div className="w5k-value">{formattedWilshireGrowthRate}</div>
+                            <div className="w5k-value">{wilshireValue}</div>
                             <p>{wilshireGrowthRate}</p>
                         </div>
                     </div>
@@ -243,7 +271,7 @@ const Charts = () => {
                     </div>
                     <div className="market-metrics">
                         <div className={`metric gdp-indicator positive-growth`}>
-                            <h2>Date of Data Dump</h2>
+                            <h2>Date of Source Data</h2>
                             <div className="gdp-value">{latestDate}</div>
                             <p>&nbsp;</p>
                         </div>
