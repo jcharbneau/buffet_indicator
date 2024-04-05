@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react';
 import { Line, Bar, Scatter } from 'react-chartjs-2';
 import 'chartjs-plugin-zoom'; // Only necessary if zoom functionality is desired in the Line chart
 import { Chart, registerables, ScatterController, LineElement, PointElement, LinearScale, Title, Tooltip, Legend } from 'chart.js';
-
+import annotationPlugin from 'chartjs-plugin-annotation';
 import { SectionWrapper } from "../hoc/index.js";
 import { fetchMarketInsights, fetchMarketTrends } from "../utils/api.js";
 import './MarketMetrics.css'; // Make sure the path matches where your CSS file is located
 
-Chart.register(...registerables, ScatterController, LineElement, PointElement, LinearScale, Title, Tooltip, Legend);
+Chart.register(...registerables, annotationPlugin,ScatterController, LineElement, PointElement, LinearScale, Title, Tooltip, Legend);
 
 const options = {
     title: "Economic Performance",
@@ -126,7 +126,8 @@ const Charts = () => {
                         const gdpValue = item.gdp_value || 0;
                         return gdpValue !== 0 ? (wilshireValue / gdpValue) * 100 : 0; // Ensure no division by zero
                     }),
-                    borderColor: '#ff6b6b',
+                    borderColor: 'rgba(255, 0, 0, 1)',
+                    backgroundColor: 'rgba(255, 0, 0, 1)',
                     yAxisID: 'y',
                 },
             ],
@@ -175,13 +176,22 @@ const Charts = () => {
         },
         plugins: {
             legend: {
-                strokeStyle: '#ff6b6b',
                 labels: {
                     color: '#000000', // Text color
-                    backgroundColor: '#ff6b6b', // Attempt to set background color (Note: Not a standard option)
-                    // Additional styling options here
                 },
             },
+            annotation: {
+                annotations: {
+                    lineAt100: { // This is an arbitrary ID for the annotation
+                        type: 'line',
+                        yMin: 100,
+                        yMax: 100,
+                        borderColor: 'rgba(255, 99, 132, 0.5)',
+                        borderWidth: 1,
+                        dashed: [5, 5]
+                    }
+                }
+            }
         },
         maintainAspectRatio: true,
         responsive: true,
@@ -230,47 +240,48 @@ const Charts = () => {
         <>
             <div className="w-full max-w-7xl h-full pt-20">
                 <h2 className="text-black text-xl text-left pl-2">Current Economic Insights</h2>
+                {/*<div className="market-metrics">*/}
+                {/*    <div className="flip-card" onClick={() => handleFlip('buffettIndicator')}>*/}
+                {/*        <div className={`flip-card-inner ${isFlipped.buffettIndicator ? 'is-flipped' : ''}`}>*/}
+                {/*            <div className="flip-card-front">*/}
+                {/*                <div className={`metric buffett-indicator ${isOvervalued ? 'overvalued' : 'undervalued'}`}>*/}
+                {/*                    <h2>Buffett Indicator</h2>*/}
+                {/*                    <div className="indicator-value">{buffettIndicatorValue}</div>*/}
+                {/*                    <p>{buffettIndicatorStatus[0]}<br/>{buffettIndicatorStatus[1]}</p>*/}
+                {/*                </div>*/}
+                {/*            </div>*/}
+                {/*            <div className="flip-card-back">*/}
+                {/*                <p>Information about Buffett Indicator</p>*/}
+                {/*            </div>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
                 <dl className="mx-auto text-left grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4">
                     <div className="market-metrics">
-                        <div className={`metric buffett-indicator ${isOvervalued ? 'overvalued' : 'undervalued'}`}>
+                        <div className={`metric flex w-full buffett-indicator ${isOvervalued ? 'overvalued' : 'undervalued'}`}>
                             <h2>Buffett Indicator</h2>
                             <div className="indicator-value">{buffettIndicatorValue}</div>
                             <p>{buffettIndicatorStatus[0]}<br/>{buffettIndicatorStatus[1]}</p>
                         </div>
 
                     </div>
-                    {/*<div className="market-metrics">*/}
-                    {/*    <div className="flip-card" onClick={() => handleFlip('buffettIndicator')}>*/}
-                    {/*        <div className={`flip-card-inner ${isFlipped.buffettIndicator ? 'is-flipped' : ''}`}>*/}
-                    {/*            <div className="flip-card-front">*/}
-                    {/*                <div className={`metric buffett-indicator ${isOvervalued ? 'overvalued' : 'undervalued'}`}>*/}
-                    {/*                    <h2>Buffett Indicator</h2>*/}
-                    {/*                    <div className="indicator-value">{buffettIndicatorValue}</div>*/}
-                    {/*                    <p>{buffettIndicatorStatus[0]}<br/>{buffettIndicatorStatus[1]}</p>*/}
-                    {/*                </div>*/}
-                    {/*            </div>*/}
-                    {/*            <div className="flip-card-back">*/}
-                    {/*                <p>Information about Buffett Indicator</p>*/}
-                    {/*            </div>*/}
-                    {/*        </div>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
+
                     <div className="market-metrics">
-                        <div className={`metric w5k-indicator ${wilshireValue >= 0 ? 'positive-growth' : 'negative-growth'}`}>
+                        <div className={`metric flex w-full w5k-indicator ${wilshireValue >= 0 ? 'positive-growth' : 'negative-growth'}`}>
                             <h2>Wilshire 5000 Price Index</h2>
                             <div className="w5k-value">{wilshireValue}</div>
                             <p>{wilshireGrowthRate}</p>
                         </div>
                     </div>
                     <div className="market-metrics">
-                        <div className={`metric gdp-indicator ${gdpGrowthRate >= 0 ? 'positive-growth' : 'negative-growth'}`}>
+                        <div className={`metric flex w-full gdp-indicator ${gdpGrowthRate >= 0 ? 'positive-growth' : 'negative-growth'}`}>
                             <h2>Gross Domestic Product</h2>
                             <div className="gdp-value">{gdpValue}</div>
                             <p>{formattedGdpGrowthRate}</p>
                         </div>
                     </div>
                     <div className="market-metrics">
-                        <div className={`metric gdp-indicator positive-growth`}>
+                        <div className={`metric flex w-full gdp-indicator positive-growth`}>
                             <h2>Date of Source Data</h2>
                             <div className="gdp-value">{latestDate}</div>
                             <p>&nbsp;</p>

@@ -140,3 +140,16 @@
     background-color: transparent;
 }
 
+
+/* Added to ensure equal sizing of market-metrics containers */
+dl.grid {
+    display: flex;
+    flex-wrap: wrap;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.market-metrics {
+    flex: 1; /* Allows each container to grow to fill the available space */
+    min-height: 250px; /* Example minimum height */
+
+}
