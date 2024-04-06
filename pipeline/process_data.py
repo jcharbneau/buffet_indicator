@@ -73,12 +73,9 @@ try:
     # Combine the quarterly data into one DataFrame
     combined_quarterly = wilshire_quarterly.join(gdp_quarterly_mapped, on='quarter')
 
-
     # Now, calculate the growth rates on the combined DataFrame
     combined_quarterly['wilshire_growth_rate'] = combined_quarterly['will5000pr'].pct_change() * 100
     combined_quarterly['gdp_growth_rate'] = combined_quarterly['gdp'].pct_change() * 100
-#     print(combined_quarterly[['quarter', 'wilshire_growth_rate', 'gdp_growth_rate']].head())
-
 
     # Implement the formula to get the "buffett_indicator"
     combined_quarterly['buffett_indicator'] = (combined_quarterly['will5000pr'] / combined_quarterly['gdp']) * 100
