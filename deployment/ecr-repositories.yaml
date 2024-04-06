@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'AWS CloudFormation for deploying Dockerized application: ECR Repositories'
+
+Resources:
+  FrontendECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: bifrontend-repo
+
+  ApiECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: biapi-repo
+
+  PostgresECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: bipostgres-repo
+
+Outputs:
+  FrontendECRRepositoryURI:
+    Description: "Frontend ECR Repository URI"
+    Value: !GetAtt FrontendECRRepository.RepositoryUri
+
+  ApiECRRepositoryURI:
+    Description: "API ECR Repository URI"
+    Value: !GetAtt ApiECRRepository.RepositoryUri
+
+  PostgresECRRepositoryURI:
+    Description: "Postgres ECR Repository URI"
+    Value: !GetAtt PostgresECRRepository.RepositoryUri
