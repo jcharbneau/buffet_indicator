@@ -5,35 +5,31 @@ import { motion } from 'framer-motion';
 import { styles } from '../styles';
 import { fadeIn, textVariant } from "../utils/motion";
 import { SectionWrapper } from '../hoc'
+import jlc_profile_pic from '../assets/jlc.jpeg';
+import linkedin_icon from '../assets/LI-Logo.png';
+import github_icon from '../assets/github-mark.png';
 
 const About = () => {
     const text = "About text goes here";
     return (
         <>
-            <div className="w-full max-w-7xl h-full pt-20">
-                <div className={`${styles.padding} bg-white border-0  min-h-screen`}>
-                    <motion.div variants={textVariant()} className="bg-transparent">
-                        <p className={`${styles.sectionSubText} bg-transparent text-white`}>We are ...</p>
-                        {/*<h2 className={` ${styles.sectionHeadText} bg-transparent`}>SecFul</h2>*/}
-                        <h1 className="overflow-hidden text-2xl  bg-transparent font-bold leading-6 text-white">
-                            {text.match(/./gu).map((char, index) => (
-                                <span
-                                className=" bg-transparent animate-text-reveal inline-block [animation-fill-mode:backwards]"
-                                key={`${char}-${index}`}
-                                style={{ animationDelay: `${index * 0.15}s` }}
-                                >
-                            {char === " " ? "\u00A0" : char}
-                                </span>
-                                ))}
-                        </h1>
-                    </motion.div>
-
-
-
-
+            <div className="w-full max-w-7xl h-full pt-20 bg-white" style={{ backgroundColor: '#ffffff', color:'#000000' }}>
+                <div className="flex text-left w-full py-4">
+                    <h1 className="text-left text-black text-xl px-4">About</h1>
                 </div>
 
+                <div className="about-content-wrapper">
+
+                    <div className="jlc-image-wrapper">
+                        <img src={jlc_profile_pic} alt="Jesse Charbneau" className="jlc-image-class"/>
+                    </div>
+                    <div className="w-full text-black">
+                        Another bright idea by Jess!
+                    </div>
+                </div>
             </div>
+
+
         </>
     )
 }
