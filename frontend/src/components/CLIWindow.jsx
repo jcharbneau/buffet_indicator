@@ -7,7 +7,7 @@ const CLIWindow = ({ content }) => {
     };
 
     return (
-        <div className="pl-2  md:mx-auto lg:mt-0 lg:w-screen relative justify-self-end pl-12" style={{ backgroundColor: '#ffffff', color:'#000000', overflow: 'hidden', maxHeight: '450px' }}>
+        <div className="cursor-pointer pl-2  md:mx-auto lg:mt-0 lg:w-screen relative justify-self-end pl-12" style={{ backgroundColor: '#ffffff', color:'#000000', overflow: 'hidden', maxHeight: '450px' }}>
             <div
                 className="absolute inset-y-0 right-1/2 -z-10 -mr-10 w-[200%] skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 md:-mr-20 lg:-mr-16"
                 aria-hidden="true"
@@ -25,7 +25,11 @@ const CLIWindow = ({ content }) => {
                                     <div className="-mb-px flex text-sm font-medium leading-4 text-gray-400">
                                         {/* Tabs or file names can go here */}
                                         <div className="border-b border-r text-white border-b-white/20 border-r-white/10 bg-white/5 px-4 py-2">process_data.py</div>
-                                        <div className="border-r border-gray-600/10 px-4 py-2">retrieve_data.py</div>
+                                        <div className="border-r border-b-white/20 border-r-white/10 border-gray-600/10 px-4 py-2">retrieve_data.py</div>
+                                        <div className="border-r border-b-white/20 border-r-white/10 border-gray-600/10 px-4 py-2">main.py</div>
+                                        <div className="border-r border-b-white/20 border-r-white/10 border-gray-600/10 px-4 py-2">api.js</div>
+                                        <div className="border-r border-b-white/20 border-r-white/10 border-gray-600/10 px-4 py-2">Charts.jsx</div>
+                                        <div className="border-r border-b-white/20 border-r-white/10 border-gray-600/10 px-4 py-2">Dockerfile</div>
                                     </div>
                                 </div>
                                 <div className="px-6 pb-14 pl-2" style={{overflow: 'hidden'}}>
