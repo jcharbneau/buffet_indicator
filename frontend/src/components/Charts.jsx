@@ -27,8 +27,7 @@ const Charts = () => {
     const [buffettIndicatorValue, setBuffettIndicatorValue] = useState('');
     const [wilshireValue, setWilshireValue] = useState('');
     const [wilshireGrowthRate, setWilshireGrowthRate] = useState('');
-
-    const [formattedWilshireGrowthRate, setFormattedWilshireGrowthRate] = useState('');
+    const [wilshireFormattedValue, setWilshireFormattedValue] = useState('');
     const [gdpValue, setGdpValue] = useState('');
     const [gdpGrowthRate, setGdpGrowthRate] = useState('');
     const [latestDate, setLatestDate] = useState('');
@@ -70,6 +69,8 @@ const Charts = () => {
                     if (latestInsight.buffett_indicator) {
 
                         setWilshireValue(latestInsight.wilshire_value);
+                        setWilshireFormattedValue(latestInsight.wilshire_value.toLocaleString());
+
                         setWilshireGrowthRate(`${(latestInsight.wilshire_growth_rate).toFixed(2)}%`);
 
                         const formattedGdpValue = new Intl.NumberFormat('en-US', {
@@ -239,23 +240,9 @@ const Charts = () => {
     return (
         <>
             <div className="w-full max-w-7xl h-full pt-20 bg-white" style={{ backgroundColor: '#ffffff', color:'#000000' }}>
-                <h2 className="text-black text-xl text-left pl-2" >Current Economic Insights</h2>
-                {/*<div className="market-metrics">*/}
-                {/*    <div className="flip-card" onClick={() => handleFlip('buffettIndicator')}>*/}
-                {/*        <div className={`flip-card-inner ${isFlipped.buffettIndicator ? 'is-flipped' : ''}`}>*/}
-                {/*            <div className="flip-card-front">*/}
-                {/*                <div className={`metric buffett-indicator ${isOvervalued ? 'overvalued' : 'undervalued'}`}>*/}
-                {/*                    <h2>Buffett Indicator</h2>*/}
-                {/*                    <div className="indicator-value">{buffettIndicatorValue}</div>*/}
-                {/*                    <p>{buffettIndicatorStatus[0]}<br/>{buffettIndicatorStatus[1]}</p>*/}
-                {/*                </div>*/}
-                {/*            </div>*/}
-                {/*            <div className="flip-card-back">*/}
-                {/*                <p>Information about Buffett Indicator</p>*/}
-                {/*            </div>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
+                <div className="flex text-left w-full py-4">
+                    <h1 className="text-left text-black text-xl px-4">Current Economic Insights</h1>
+                </div>
                 <dl className="bg-white mx-auto text-left grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4"  >
                     <div className="market-metrics">
                         <div className={`metric flex w-full buffett-indicator ${isOvervalued ? 'overvalued' : 'undervalued'}`}>
@@ -269,7 +256,7 @@ const Charts = () => {
                     <div className="market-metrics">
                         <div className={`metric flex w-full w5k-indicator ${wilshireValue >= 0 ? 'positive-growth' : 'negative-growth'}`}>
                             <h2>Wilshire 5000 Price Index</h2>
-                            <div className="w5k-value">{wilshireValue}</div>
+                            <div className="w5k-value">{wilshireFormattedValue}</div>
                             <p>{wilshireGrowthRate}</p>
                         </div>
                     </div>
