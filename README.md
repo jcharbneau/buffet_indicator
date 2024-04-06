@@ -19,6 +19,7 @@ This is an example end-to-end project to develop a process and the necessary too
 * [![PostgreSQL][PostgreSQL-shield]][PostgreSQL-url]
 * [![PyCharm][PyCharm-shield]][PyCharm-url]
 * [![WebStorm][WebStorm-shield]][WebStorm-url]
+* [![Pandas][Pandas-shield]][Pandas-url]
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -87,3 +88,5 @@ Notes regarding troubleshooting will be logged here
 [FastAPI-shield]:https://img.shields.io/static/v1?style=for-the-badge&message=FastAPI&color=009688&logo=FastAPI&logoColor=FFFFFF&label=
 [FastAPI-url]: https://fastapi.tiangolo.com
 
+[Pandas-shield]:https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white
+[Pandas-url]: https://pandas.pydata.org/
