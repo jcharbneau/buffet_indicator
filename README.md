@@ -3,26 +3,6 @@ This is an example end-to-end project to develop a process and the necessary too
 ![HomePage Screenshot](project_notes/screenshots/homepage.png)
 ![Charts Screenshot](project_notes/screenshots/charts.png)
 
-### Frontend Built With
-* [![React][React.js]][React-url]
-* [![TailwindCSS][TailwindCSS-shield]][TailwindCSS-url]
-* [![ViteJS][Vitejs-shield]][Vitejs-url]
-* [![Docker][Docker-shield]][Docker-url]
-
-### Backend API Built With
-* [![Python][Python-shield]][Python-url]
-* [![FastAPI][FastAPI-shield]][FastAPI-url]
-* [![PyTest][PyTest-shield]][PyTest-url]
-* [![SQLAlchemy][SQLAlchemy-shield]][SQLAlchemy-url]
-* [![Docker][Docker-shield]][Docker-url]
-
-### Other tools used
-* [![GitHub][GitHub-shield]][GitHub-url]
-* [![PostgreSQL][PostgreSQL-shield]][PostgreSQL-url]
-* [![PyCharm][PyCharm-shield]][PyCharm-url]
-* [![WebStorm][WebStorm-shield]][WebStorm-url]
-* [![Pandas][Pandas-shield]][Pandas-url]
-
 <!-- GETTING STARTED -->
 ## Getting Started
 
@@ -48,6 +28,27 @@ python process_data.py
 ```
 ## Troubleshooting
 Notes regarding troubleshooting will be logged here
+
+
+### Frontend Built With
+* [![React][React.js]][React-url]
+* [![TailwindCSS][TailwindCSS-shield]][TailwindCSS-url]
+* [![ViteJS][Vitejs-shield]][Vitejs-url]
+* [![Docker][Docker-shield]][Docker-url]
+
+### Backend API Built With
+* [![Python][Python-shield]][Python-url]
+* [![FastAPI][FastAPI-shield]][FastAPI-url]
+* [![PyTest][PyTest-shield]][PyTest-url]
+* [![SQLAlchemy][SQLAlchemy-shield]][SQLAlchemy-url]
+* [![Docker][Docker-shield]][Docker-url]
+
+### Other tools used
+* [![GitHub][GitHub-shield]][GitHub-url]
+* [![PostgreSQL][PostgreSQL-shield]][PostgreSQL-url]
+* [![PyCharm][PyCharm-shield]][PyCharm-url]
+* [![WebStorm][WebStorm-shield]][WebStorm-url]
+* [![Pandas][Pandas-shield]][Pandas-url]
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
