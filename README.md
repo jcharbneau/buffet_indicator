@@ -1,5 +1,7 @@
 # Buffet Indicator project
 This is an example end-to-end project to develop a process and the necessary tools to support retrieving, processing, publishing and presentation of the data to understand the economic outlook based on Buffets Indicator rule.
+![HomePage Screenshot](project_notes/screenshots/homepage.png)
+![Charts Screenshot](project_notes/screenshots/charts.png)
 
 ### Frontend Built With
 * [![React][React.js]][React-url]
