@@ -36,7 +36,7 @@ const Documentation = () => {
                 return (
                     <div className="text-black text-left py-2 pl-4">
                         <h2 className="text-xl">Getting Started</h2>
-                        <p className="py-4">This is an example end-to-end project to demonstrate a process and the necessary tools to support
+                        <p className="py-4">This is an example end-to-end project to demonstrate a process and the tooling to support
                             retrieving, processing, publishing and presentation of the data to understand the economic outlook</p>
                         <h3 id="usage" className="pt-2">Usage</h3>
                         <p className="py-4">This tooling includes a Docker Compose file, as well as several Dockerfile definition files. If using these containers to run this project, you should not need to install anything. Where needed, I will note any credentials and/or signups necessary to achieve the project results. The following commands , shoudl be executed from a terminal in the top-level project directory.</p>
