@@ -3,12 +3,8 @@ import CLIWindow from "./CLIWindow.jsx";
 
 export default function Hero() {
     const cliContent = `    
-    wilshire_data = fetch_data(
-        'SELECT date, will5000pr FROM pipeline_schema.wilshire_price_index ORDER BY date;'
-    )
-    gdp_data = fetch_data(
-        'SELECT date, gdp FROM pipeline_schema.gdp_value ORDER BY date;'
-    )
+    wilshire_data = fetch_data('SELECT date, will5000pr FROM pipeline_schema.wilshire_price_index ORDER BY date;')
+    gdp_data = fetch_data('SELECT date, gdp FROM pipeline_schema.gdp_value ORDER BY date;')
 
     # Data conversion and indexing
     wilshire_data['date'] = pd.to_datetime(wilshire_data['date'])
@@ -20,7 +16,9 @@ export default function Hero() {
     wilshire_quarterly = wilshire_data.resample('Q').last()
     wilshire_quarterly['quarter'] = wilshire_quarterly.index.to_period('Q')
     gdp_quarterly_mapped = gdp_data.groupby(gdp_data.index.to_period('Q'))['gdp'].first()
-
+    
+    # Combine the quarterly data into one DataFrame
+    combined_quarterly = wilshire_quarterly.join(gdp_quarterly_mapped, on='quarter')
 `;
 
 
@@ -41,18 +39,19 @@ export default function Hero() {
                                 <div className="mt-6 text-left">
                                     {/*<h2 className="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Project*/}
                                     {/*    requirements:</h2>*/}
-                                    <ul className="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
+                                    <ul className="max-w-lg space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
                                         <li>Retrieve the Wilshire 5000 &amp; US GDP Values</li>
-                                        <li>Process &amp; Publish this data using Python</li>
-                                        <li>Present the data visually</li>
+                                        <li>Process &amp; Publish Insights from this data</li>
+                                        <li>Present the data visually using React+Vite+TailwindCSS</li>
                                     </ul>
                                 </div>
-                                <div className="mt-10 flex items-center gap-x-6 py-6">
+                                <div className="mt-10 flex items-center gap-x-6 py-6 px-2">
                                     <a href="#docs"
-                                       className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Documentation</a>
+                                       className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                        Getting Started</a>
                                     <a className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                        href="https://github.com/jcharbneau/buffet_indicator" target="_blank">
-                                        View on GitHub <span className="bg-indigo-600 text-white" aria-hidden="true">→</span>
+                                        View on GitHub <span className=" text-white" aria-hidden="true">→</span>
                                     </a>
 
                                 </div>
