@@ -16,6 +16,9 @@
   color-scheme: dark;
 }
 
+html {
+  scroll-behavior: smooth;
+}
 html, body, #app, #app>div {
   height: 100%
 }
@@ -378,4 +381,68 @@ code, pre {
 }
 .avw {
   font-size: 0.8125rem;
+}
+
+.arrow-left::before, .arrow-right::before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+.arrow-left::before {
+  border-right: 10px solid black;
+}
+.arrow-right::before {
+  border-left: 10px solid black;
+}
+.jlc-profile-container {
+  /*border: 1px solid #00cea8;*/
+  max-width: 1300px;
+  display: flex;
+  justify-content: flex-start; /* Centers the child horizontally */
+  align-items: center; /* Centers the child vertically */
+  flex-direction: column;
+  /*height: 100vh; !* Full viewport height to ensure vertical centering *!*/
+}
+
+.jlc-image-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px; /* Applies rounded corners to the wrapper */
+  /* No need to set flex-shrink here unless you're specifically wanting to prevent flex shrinkage */
+}
+
+.jlc-image-wrapper::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  /*background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);*/
+  border-radius: 10px; /* Ensure the gradient fade respects the rounded corners */
+}
+
+.jlc-image-class {
+  display: block; /* Ensures the image is a block element to fill the wrapper */
+  transform: scale(0.50); /* Adjust scale as needed */
+  transform-origin: center; /* Scales down from the center */
+  width: 100%; /* Ensures the image fills the wrapper, adjust as necessary */
+  height: auto; /* Maintains aspect ratio */
+  border-radius: 10px; /* Ensures the image itself has rounded corners */
+}
+
+.about-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center children horizontally */
+  justify-content: center; /* Adjust if necessary for internal spacing */
+  /* Add any additional styling here, such as padding or a max-width to control the size */
+  /* If you want this to 'float' in the middle, ensure the container allows it, or adjust accordingly */
+}
+.about-title {
+  margin-top: 20px; /* Adjust as needed */
+  /* Additional styling for the title */
 }
