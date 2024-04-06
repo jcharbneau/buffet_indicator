@@ -39,7 +39,7 @@ The architectural design can be found below
 # Usage
 To run the complete stack, execute the following command from a terminal in the top-level project directory.
 ```shell
-docker compose up
+make dev
 ```
 To populate the `webapp_schema.market_*` tables after the initial build, you will need to run the following.
 ```shell
